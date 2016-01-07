@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  author: Emilien Mantel
+  description: Install and configure MySQL or MariaDB or Percona server on Debian 
+  company: 
+  license: GPLv2
+  min_ansible_version: 1.8
+  platforms:
+  - name: Debian
+    versions:
+    - wheezy
+    - jessie
+  categories:
+  - database
+  - database:sql
+  - packaging
+dependencies: []
+  

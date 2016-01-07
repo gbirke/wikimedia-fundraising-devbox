@@ -1,0 +1,34 @@
+---
+- hosts: all
+  vars_files:
+      - vars.yml
+  vars:
+      nginx_user: vagrant
+  roles:
+      - { role: itcraftsmanpl.php7 }
+      - { role: geerlingguy.nginx }
+      - role: HanXHX.mysql
+        mysql_vendor: mysql
+        mysql_origin: default
+        mysql_root_password: password123
+  tasks:
+      - name: Install git
+        apt: name=git state=present
+      - name: Remove apache2 # installed by php7, but not needed
+        apt: name=apache2 state=absent
+      - name: Set PHP log file
+        lineinfile: "dest=/etc/php/7.0/fpm/pool.d/www.conf state=present regexp='^;?php_admin_value.error_log' line='php_admin_value[error_log] = /var/log/fpm-php.www.log'"
+      - name: Set PHP error logging file
+        lineinfile: "dest=/etc/php/7.0/fpm/pool.d/www.conf state=present regexp='^;?php_admin_flag.log_errors' line='php_admin_flag[log_errors] = on'"
+      - name: Set php-fpm log file permissions
+        file: path=/var/log/php7.0-fpm.log state=present mode=0644
+        notify: restart php7-fpm
+      - name: Ensure permissions on nginx log dir
+        file: path=/var/log/nginx state=directory owner=vagrant
+      - name: Create nginx vhost config for spenden2
+        copy: src=files/nginx.spenden2.conf dest=/etc/nginx/sites-available/spenden2.conf
+      - name: Activate nginx vhost config for spenden2
+        file: state=link dest=/etc/nginx/sites-enabled/spenden2.conf src=/etc/nginx/sites-available/spenden2.conf
+        notify:
+          - validate nginx configuration
+          - restart nginx
