@@ -6,6 +6,7 @@
       nginx_user: vagrant
   roles:
       - { role: itcraftsmanpl.php7 }
+      - { role: Vinelab.composer }
       - { role: geerlingguy.nginx }
       - role: HanXHX.mysql
         mysql_vendor: mysql

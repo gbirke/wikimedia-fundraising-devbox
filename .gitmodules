@@ -1,0 +1,3 @@
+[submodule "provisioning/roles/Vinelab.composer"]
+	path = provisioning/roles/Vinelab.composer
+	url = https://github.com/Vinelab/ansible-composer.git
