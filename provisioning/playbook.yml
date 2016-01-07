@@ -22,7 +22,7 @@
       - name: Set PHP error logging file
         lineinfile: "dest=/etc/php/7.0/fpm/pool.d/www.conf state=present regexp='^;?php_admin_flag.log_errors' line='php_admin_flag[log_errors] = on'"
       - name: Set php-fpm log file permissions
-        file: path=/var/log/php7.0-fpm.log state=present mode=0644
+        file: path=/var/log/php7.0-fpm.log state=file mode=0644
         notify: restart php7-fpm
       - name: Ensure permissions on nginx log dir
         file: path=/var/log/nginx state=directory owner=vagrant
