@@ -21,6 +21,8 @@
         lineinfile: "dest=/etc/php/7.0/fpm/pool.d/www.conf state=present regexp='^;?php_admin_value.error_log' line='php_admin_value[error_log] = /var/log/fpm-php.www.log'"
       - name: Set PHP error logging file
         lineinfile: "dest=/etc/php/7.0/fpm/pool.d/www.conf state=present regexp='^;?php_admin_flag.log_errors' line='php_admin_flag[log_errors] = on'"
+      - name: Allow vagrant user to write in /var/log
+        user: name=vagrant append=yes groups=syslog,adm
       - name: Set php-fpm log file permissions
         file: path=/var/log/php7.0-fpm.log state=file mode=0644
         notify: restart php7-fpm
